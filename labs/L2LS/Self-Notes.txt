@@ -1,0 +1,69 @@
+ansible [core 2.16.11]
+  config file = /home/coder/.ansible.cfg
+  configured module search path = ['/home/coder/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /home/coder/.local/lib/python3.11/site-packages/ansible
+  ansible collection location = /home/coder/.ansible/collections:/usr/share/ansible/collections
+  executable location = /home/coder/.local/bin/ansible
+  python version = 3.11.2 (main, Aug 26 2024, 07:20:54) [GCC 12.2.0] (/usr/bin/python3)
+  jinja version = 3.1.4
+  libyaml = True
+
+-- requirements --
+
+aiocache==0.12.2
+annotated-types==0.7.0
+ansible-core==2.16.11
+anta==1.2.0
+anyio==4.4.0
+aristaproto==0.1.2
+asyncssh==2.17.0
+attrs==24.2.0
+certifi==2024.8.30
+cffi==1.17.1
+charset-normalizer==3.3.2
+click==8.1.8
+click-help-colors==0.9.4
+cryptography==43.0.1
+cvprac==1.4.0
+deepmerge==2.0
+eval_type_backport==0.2.0
+grpclib==0.4.7
+h11==0.14.0
+h2==4.1.0
+hpack==4.0.0
+httpcore==1.0.5
+httpx==0.27.2
+hyperframe==6.0.1
+idna==3.8
+Jinja2==3.1.4
+jsonrpclib-pelix==0.4.3.3
+jsonschema==4.23.0
+jsonschema-specifications==2023.12.1
+markdown-it-py==3.0.0
+MarkupSafe==2.1.5
+mdurl==0.1.2
+multidict==6.1.0
+netaddr==1.3.0
+packaging==24.1
+passlib==1.7.4
+pyavd==5.2.2
+pycparser==2.22
+pydantic==2.9.1
+pydantic-extra-types==2.9.0
+pydantic_core==2.23.3
+pyeapi==1.0.4
+Pygments==2.18.0
+PySocks==1.7.1
+python-dateutil==2.9.0.post0
+PyYAML==6.0.2
+referencing==0.35.1
+requests==2.32.3
+resolvelib==1.0.1
+rich==13.8.1
+rpds-py==0.20.0
+shyaml==0.6.2
+six==1.16.0
+sniffio==1.3.1
+treelib==1.7.0
+typing_extensions==4.12.2
+urllib3==2.2.2
