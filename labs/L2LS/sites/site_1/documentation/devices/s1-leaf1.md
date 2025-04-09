@@ -9,6 +9,7 @@
   - [Management API HTTP](#management-api-http)
 - [Authentication](#authentication)
   - [Local Users](#local-users)
+  - [Enable Password](#enable-password)
   - [AAA Authorization](#aaa-authorization)
 - [Monitoring](#monitoring)
   - [TerminAttr Daemon](#terminattr-daemon)
@@ -49,20 +50,20 @@
 
 | Management Interface | Description | Type | VRF | IP Address | Gateway |
 | -------------------- | ----------- | ---- | --- | ---------- | ------- |
-| Management0 | oob_management | oob | default | 192.168.0.12/24 | 192.168.0.1 |
+| Management0 | OOB_MANAGEMENT | oob | default | 192.168.0.12/24 | 192.168.0.1 |
 
 ##### IPv6
 
 | Management Interface | Description | Type | VRF | IPv6 Address | IPv6 Gateway |
 | -------------------- | ----------- | ---- | --- | ------------ | ------------ |
-| Management0 | oob_management | oob | default | - | - |
+| Management0 | OOB_MANAGEMENT | oob | default | - | - |
 
 #### Management Interfaces Device Configuration
 
 ```eos
 !
 interface Management0
-   description oob_management
+   description OOB_MANAGEMENT
    no shutdown
    ip address 192.168.0.12/24
 ```
@@ -99,9 +100,9 @@ ntp server 192.168.0.1 iburst local-interface Management0
 
 #### Management API HTTP Summary
 
-| HTTP | HTTPS | Default Services |
-| ---- | ----- | ---------------- |
-| False | True | - |
+| HTTP | HTTPS | UNIX-Socket | Default Services |
+| ---- | ----- | ----------- | ---------------- |
+| False | True | - | - |
 
 #### Management API VRF Access
 
@@ -138,6 +139,10 @@ management api http-commands
 username arista privilege 15 role network-admin secret sha512 <removed>
 username arista ssh-key ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDnyWgYpH04chprCro4c2WURCnpyZD740buUwzGHroi1RpHGAEhwHEvS7c1qN81NJOpxKtAAwIRnK7KXCZTwxsyDt09ZbMJ3hbP+K+O9EHn8kpu6fNllos0U3m350aSQQBN4Cmg7ltPKkcdJHvc+nQOoQioNGAGHXkZ+xPH4YuEL+cz3OfYQe02LlIcHBQVOC7qgFw99R7hdGsOiIEwext3xt3IET60lCzGzbMMqyxxxEg/bSAwD+PcB+LS7sbxdUo/P3ZDVguI9NWIT7RQ859DzebN30ubiyf0qg5qj3voV2IMjQZuW2B7kkkmBrkULqBz8ldQaQlfMOJ54H9T2k6X arista@montreal-workshops-21-32c7b60d-eos
 ```
+
+### Enable Password
+
+Enable password has been disabled
 
 ### AAA Authorization
 
@@ -244,14 +249,14 @@ vlan internal order ascending range 1006 1199
 
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
-| 4094 | MLAG_PEER | MLAG |
+| 4094 | MLAG | MLAG |
 
 ### VLANs Device Configuration
 
 ```eos
 !
 vlan 4094
-   name MLAG_PEER
+   name MLAG
    trunk group MLAG
 ```
 
@@ -265,10 +270,10 @@ vlan 4094
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet1 | MLAG_PEER_s1-leaf2_Ethernet1 | *trunk | *- | *- | *['MLAG'] | 1 |
-| Ethernet2 | S1-SPINE1_Ethernet2 | *trunk | *none | *- | *- | 2 |
-| Ethernet3 | S1-SPINE2_Ethernet2 | *trunk | *none | *- | *- | 2 |
-| Ethernet6 | MLAG_PEER_s1-leaf2_Ethernet6 | *trunk | *- | *- | *['MLAG'] | 1 |
+| Ethernet1 | MLAG_s1-leaf2_Ethernet1 | *trunk | *- | *- | *MLAG | 1 |
+| Ethernet2 | L2_s1-spine1_Ethernet2 | *trunk | *none | *- | *- | 2 |
+| Ethernet3 | L2_s1-spine2_Ethernet2 | *trunk | *none | *- | *- | 2 |
+| Ethernet6 | MLAG_s1-leaf2_Ethernet6 | *trunk | *- | *- | *MLAG | 1 |
 
 *Inherited from Port-Channel Interface
 
@@ -277,22 +282,22 @@ vlan 4094
 ```eos
 !
 interface Ethernet1
-   description MLAG_PEER_s1-leaf2_Ethernet1
+   description MLAG_s1-leaf2_Ethernet1
    no shutdown
    channel-group 1 mode active
 !
 interface Ethernet2
-   description S1-SPINE1_Ethernet2
+   description L2_s1-spine1_Ethernet2
    no shutdown
    channel-group 2 mode active
 !
 interface Ethernet3
-   description S1-SPINE2_Ethernet2
+   description L2_s1-spine2_Ethernet2
    no shutdown
    channel-group 2 mode active
 !
 interface Ethernet6
-   description MLAG_PEER_s1-leaf2_Ethernet6
+   description MLAG_s1-leaf2_Ethernet6
    no shutdown
    channel-group 1 mode active
 ```
@@ -303,28 +308,28 @@ interface Ethernet6
 
 ##### L2
 
-| Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
-| --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
-| Port-Channel1 | MLAG_PEER_s1-leaf2_Po1 | switched | trunk | - | - | ['MLAG'] | - | - | - | - |
-| Port-Channel2 | SPINES_Po2 | switched | trunk | none | - | - | - | - | 2 | - |
+| Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
+| --------- | ----------- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
+| Port-Channel1 | MLAG_s1-leaf2_Port-Channel1 | trunk | - | - | MLAG | - | - | - | - |
+| Port-Channel2 | L2_SPINES_Port-Channel2 | trunk | none | - | - | - | - | 2 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
 ```eos
 !
 interface Port-Channel1
-   description MLAG_PEER_s1-leaf2_Po1
+   description MLAG_s1-leaf2_Port-Channel1
    no shutdown
-   switchport
    switchport mode trunk
    switchport trunk group MLAG
+   switchport
 !
 interface Port-Channel2
-   description SPINES_Po2
+   description L2_SPINES_Port-Channel2
    no shutdown
-   switchport
    switchport trunk allowed vlan none
    switchport mode trunk
+   switchport
    mlag 2
 ```
 
@@ -334,20 +339,20 @@ interface Port-Channel2
 
 | Interface | Description | VRF |  MTU | Shutdown |
 | --------- | ----------- | --- | ---- | -------- |
-| Vlan4094 | MLAG_PEER | default | 1500 | False |
+| Vlan4094 | MLAG | default | 1500 | False |
 
 ##### IPv4
 
-| Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
-| --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
-| Vlan4094 |  default  |  10.1.253.0/31  |  -  |  -  |  -  |  -  |  -  |
+| Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | ACL In | ACL Out |
+| --------- | --- | ---------- | ------------------ | ------------------------- | ------ | ------- |
+| Vlan4094 |  default  |  10.1.253.0/31  |  -  |  -  |  -  |  -  |
 
 #### VLAN Interfaces Device Configuration
 
 ```eos
 !
 interface Vlan4094
-   description MLAG_PEER
+   description MLAG
    no shutdown
    mtu 1500
    no autostate
